@@ -30,14 +30,15 @@ function createImgElement(product){
     card.className = "imgContainer";
     //img
     const img = document.createElement("img");
+    img.className="card-img";
     img.src = product.src;
     img.alt = "Image";
     //info
     const name = document.createElement("h2");
     name.textContent = product.name;
     //append
-    card.appendChild(name);
     card.appendChild(img);
+    card.appendChild(name);
 
     //Gán handle click cho thẻ phụ
     card.addEventListener('click', () =>{
@@ -68,13 +69,30 @@ function initializeApp(){
 //Xử lý khi click vào thẻ con
   //Ta sẽ cập nhật main card khi card đc click
 function handleCardClick(product){
-    //Thay đổi nội dung cũ, img
-    //Sử dụng innerHTML để chèn cấu trúc html vào thẻ chính
-    //Lấy từ mainCard - Query Selector ?
-    mainCardContainer.innerHTML = `
-        <img src="${product.src}" alt="Main Image">
-        <h2> ${product.name}</h2>
-    `
+    //1. Thay đổi nội dung cũ, img kèm theo animation
+    mainCardContainer.classList.add('is-leaving');
+    //2. Đợi animation kế thúc rồi mới thay đổi nội dung
+    setTimeout(() => {
+         // 3. Xóa class "biến mất"
+        mainCardContainer.classList.remove('is-leaving');
+
+        // 4. CẬP NHẬT NỘI DUNG (Content Update)
+        //Sử dụng innerHTML để chèn cấu trúc html vào thẻ chính
+        //Lấy từ mainCard - Query Selector ?
+        mainCardContainer.innerHTML = `
+            <img src="${product.src}" alt="Main Image">
+            <h2> ${product.name}</h2>
+        `;
+        // 5. Kích hoạt hiệu ứng "xuất hiện" (entering) cho nội dung mới
+        mainCardContainer.classList.add('is-entering');
+
+        // 6. Đợi animation xuất hiện kết thúc (0.4 giây)
+        // Sau đó xóa class để thẻ trở về trạng thái cơ bản, sẵn sàng cho lần click tiếp theo
+        setTimeout(() => {
+            mainCardContainer.classList.remove('is-entering');
+        }, 400); // 400ms = 0.4s (đảm bảo khớp với thời gian animation CSS)
+    }, 300); //300ms
+     
 };
 
 //Chạy ứng dụng
