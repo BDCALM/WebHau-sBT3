@@ -52,9 +52,19 @@ function createImgElement(product){
 
 // Xử lý sự kiện
 //Hàm chính 
+function displayMainCardFirst(product){
+
+        // 4. CẬP NHẬT NỘI DUNG (Content Update)
+        //Sử dụng innerHTML để chèn cấu trúc html vào thẻ chính
+        //Lấy từ mainCard - Query Selector ?
+        mainCardContainer.innerHTML = `
+            <img src="${product.src}" alt="Main Image">
+            <h2> ${product.name}</h2>`;
+
+};
 function initializeApp(){
     //Hiển thị ảnh đầu tiên nè - id = 1
-    handleCardClick(products[0]);
+    displayMainCardFirst(products[0]);
 
     //4 cái còn lại ở trong thẻ div secondary-section
         // .slice(1) - bỏ qua thằng đầu tiên
@@ -96,4 +106,6 @@ function handleCardClick(product){
 };
 
 //Chạy ứng dụng
-initializeApp();
+
+// Chạy ứng dụng khi DOM đã sẵn sàng
+document.addEventListener('DOMContentLoaded', initializeApp);
